@@ -17,22 +17,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText desireAmtEditText;
     private Button calcBtn;
 
+
     // arrays to hold initial ingredient values and results
     private EditText[] ingredientsEditText = new EditText[5];
     private TextView[] ingredientResultsTextView = new TextView[5];
 
     //variables to hold decimal amounts
-    private Double desireAmt;
-    private Double originalAmt;
+
 
     //arrays to hold original decimal values and decimal results
-    private Double[] ingredientsOriginal = {0.0, 0.0, 0.0, 0.0, 0.0};
-    private Double[] ingredientResults = {0.0, 0.0, 0.0, 0.0, 0.0};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //sets references to corresponding objects in activity_main.xml
         originalAmtEditText = (EditText) findViewById(R.id.originalAmtEditText);
@@ -59,8 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // make sure each EditText has a String
         try {
             // set decimals values for each ingredient
+            ServingAmount servingAmount = new ServingAmount(Double.parseDouble(originalAmtEditText.getText().toString()));
+            servingAmount.setNewServingAmount(Double.parseDouble(desireAmtEditText.getText().toString()));
             for (int i = 0; i < 5; i++) {
-                ingredientsOriginal[i] = Double.parseDouble(ingredientsEditText[i].getText().toString());
+                servingAmount.setIngredientAmount(i, Double.parseDouble(ingredientsEditText[i].getText().toString()));
+            }
+            //Display each value in the appropriate TextView field in acitivty_main.xml
+            for (int i = 0; i < 5; i++) {
+                ingredientResultsTextView[i].append(Double.toString(servingAmount.setUpdateIngredientAmount(i)));
             }
         }
         catch(Exception e) {
@@ -68,14 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        //This is for testing only and will need removed.  Will sent results to the original values so we can test pulling values and displaying
-        for (int i = 0; i < 5; i++){
-            ingredientResults[i] = ingredientsOriginal[i];
-        }
 
-        //Display each value in the appropriate TextView field in acitivty_main.xml
-        for (int i = 0; i < 5; i++) {
-            ingredientResultsTextView[i].setText(ingredientResults[i].toString());
-        }
+
     }
 }

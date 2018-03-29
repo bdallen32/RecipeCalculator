@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RecipeCalculator</string>
+    <string name="calcBtn">calcBtn</string>
 </resources>
